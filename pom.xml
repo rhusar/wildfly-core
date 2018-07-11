@@ -120,6 +120,7 @@
         <version.versions.plugin>2.5</version.versions.plugin>
         <version.xml.plugin>1.0.1</version.xml.plugin>
         <wildfly.build.output.dir>dist/target/${server.output.dir.prefix}-${wildfly.core.release.version}</wildfly.build.output.dir>
+        <jboss.eap.release.name>jboss-eap-7.4</jboss.eap.release.name>
         <!-- Release Info -->
         <wildfly.core.release.version>${project.version}</wildfly.core.release.version>
         <wildfly.core.scm.connection>git@github.com:wildfly/wildfly-core.git</wildfly.core.scm.connection>
@@ -273,6 +274,24 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.commonjava.maven.plugins</groupId>
+                    <artifactId>project-sources-maven-plugin</artifactId>
+                    <version>1.1</version>
+                    <executions>
+                        <execution>
+                            <id>project-sources-archive</id>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>archive</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <assemblyRootFolder>${jboss.eap.release.name}-core-src</assemblyRootFolder>
+                        <formats>tar.gz, zip</formats>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -637,6 +656,11 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.commonjava.maven.plugins</groupId>
+                <artifactId>project-sources-maven-plugin</artifactId>
+                <version>1.1</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
