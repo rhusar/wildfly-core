@@ -3,7 +3,7 @@
   ~ SPDX-License-Identifier: Apache-2.0
   -->
 
-<build xmlns="urn:wildfly:feature-pack-build:3.4" producer="wildfly-core@maven(org.jboss.universe:community-universe):current">
+<build xmlns="urn:wildfly:feature-pack-build:3.4" producer="org.wildfly.core:wildfly-core-galleon-pack">
     <default-packages>
         <package name="modules.all"/>
         <package name="docs"/>
