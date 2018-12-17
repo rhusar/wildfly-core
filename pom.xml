@@ -116,7 +116,7 @@
         <version.org.jboss.logmanager.jboss-logmanager>2.0.11.Final-redhat-00001</version.org.jboss.logmanager.jboss-logmanager>
         <version.org.jboss.logmanager.log4j-jboss-logmanager>1.1.6.Final-redhat-00001</version.org.jboss.logmanager.log4j-jboss-logmanager>
         <version.org.jboss.marshalling.jboss-marshalling>2.0.6.Final-redhat-00001</version.org.jboss.marshalling.jboss-marshalling>
-        <version.org.jboss.modules.jboss-modules>1.6.6.Final-redhat-00001</version.org.jboss.modules.jboss-modules>
+        <version.org.jboss.modules.jboss-modules>1.6.7.Final-redhat-00001</version.org.jboss.modules.jboss-modules>
         <version.org.jboss.msc.jboss-msc>1.2.7.SP1-redhat-1</version.org.jboss.msc.jboss-msc>
         <version.org.jboss.remoting>5.0.8.Final-redhat-1</version.org.jboss.remoting>
         <version.org.jboss.remotingjmx.remoting-jmx>3.0.0.Final-redhat-1</version.org.jboss.remotingjmx.remoting-jmx>
