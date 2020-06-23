@@ -1707,11 +1707,6 @@
             </dependency>
             <dependency>
                 <groupId>org.wildfly.openssl</groupId>
-                <artifactId>wildfly-openssl-macosx-x86_64</artifactId>
-                <version>${version.org.wildfly.openssl.wildfly-openssl-macosx-x86_64}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.openssl</groupId>
                 <artifactId>wildfly-openssl-windows-x86_64</artifactId>
                 <version>${version.org.wildfly.openssl.wildfly-openssl-windows-x86_64}</version>
             </dependency>
