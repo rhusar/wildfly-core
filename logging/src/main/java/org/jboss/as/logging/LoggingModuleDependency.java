@@ -34,6 +34,7 @@ public enum LoggingModuleDependency {
     JUL_TO_SLF4J("org.jboss.logging.jul-to-slf4j-stub"),
     JBOSS_LOG_MANAGER("org.jboss.logmanager"),
     SLF4J("org.slf4j"),
+    SLF4J_EXT("org.slf4j.ext"),
     SLF4J_IMPL("org.slf4j.impl"),
     ;
 
@@ -42,6 +43,7 @@ public enum LoggingModuleDependency {
             RuntimePackageDependency.optional(LOG4J2.moduleName),
             RuntimePackageDependency.optional(SLF4J.moduleName),
             RuntimePackageDependency.optional(JUL_TO_SLF4J.moduleName),
+            RuntimePackageDependency.passive(SLF4J_EXT.moduleName),
             RuntimePackageDependency.passive(SLF4J_IMPL.moduleName),
     };
 

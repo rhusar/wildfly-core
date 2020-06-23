@@ -64,6 +64,10 @@ public class LayersTestCase {
         "org.jboss.logging.jul-to-slf4j-stub",
         // injected by logging
         "org.jboss.logmanager.log4j2",
+        // injected by logging
+        "org.slf4j.ext",
+        // injected by logging
+        "ch.qos.cal10n",
         // tooling
         "org.jboss.as.domain-add-user",
         // deployment-scanner not configured in default config
