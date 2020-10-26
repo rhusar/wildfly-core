@@ -569,12 +569,37 @@
 
         <dependency>
             <groupId>org.wildfly.openssl</groupId>
-            <artifactId>wildfly-openssl-linux-x86_64</artifactId>
+            <artifactId>wildfly-openssl-linux-ppc64le</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.openssl</groupId>
+            <artifactId>wildfly-openssl-linux-rhel6-i386</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.openssl</groupId>
+            <artifactId>wildfly-openssl-linux-rhel6-x86_64</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.openssl</groupId>
+            <artifactId>wildfly-openssl-linux-rhel7-x86_64</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.openssl</groupId>
+            <artifactId>wildfly-openssl-linux-rhel8-x86_64</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.wildfly.openssl</groupId>
             <artifactId>wildfly-openssl-linux-s390x</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly.openssl</groupId>
+            <artifactId>wildfly-openssl-windows-i386</artifactId>
         </dependency>
 
         <dependency>
