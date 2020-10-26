@@ -242,10 +242,11 @@
         <version.org.wildfly.launcher>1.0.0.Final</version.org.wildfly.launcher>
         <version.org.wildfly.legacy.test>9.0.0.Final</version.org.wildfly.legacy.test>
         <version.org.wildfly.openssl>2.2.5.Final</version.org.wildfly.openssl>
-        <version.org.wildfly.openssl.natives>2.2.2.Final</version.org.wildfly.openssl.natives>
-        <version.org.wildfly.openssl.wildfly-openssl-linux-x86_64>2.2.2.SP01</version.org.wildfly.openssl.wildfly-openssl-linux-x86_64>
-        <version.org.wildfly.openssl.wildfly-openssl-linux-s390x>2.2.2.SP01</version.org.wildfly.openssl.wildfly-openssl-linux-s390x>
-        <version.org.wildfly.openssl.wildfly-openssl-macosx-x86_64>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-macosx-x86_64>
+        <version.org.wildfly.openssl.natives>2.2.2.Final-redhat-00002</version.org.wildfly.openssl.natives>
+        <version.org.wildfly.openssl.wildfly-openssl-linux-ppc64le>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-linux-ppc64le>
+        <version.org.wildfly.openssl.wildfly-openssl-linux-rhel8-x86_64>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-linux-rhel8-x86_64>
+        <version.org.wildfly.openssl.wildfly-openssl-linux-rhel9-x86_64>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-linux-rhel9-x86_64>
+        <version.org.wildfly.openssl.wildfly-openssl-linux-s390x>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-linux-s390x>
         <version.org.wildfly.openssl.wildfly-openssl-windows-x86_64>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-windows-x86_64>
         <version.org.wildfly.security.elytron>2.6.0.Final</version.org.wildfly.security.elytron>
         <version.org.wildfly.security.elytron-web>4.1.0.Final</version.org.wildfly.security.elytron-web>
@@ -1718,8 +1719,19 @@
             </dependency>
             <dependency>
                 <groupId>org.wildfly.openssl</groupId>
-                <artifactId>wildfly-openssl-linux-x86_64</artifactId>
-                <version>${version.org.wildfly.openssl.wildfly-openssl-linux-x86_64}</version>
+                <artifactId>wildfly-openssl-linux-ppc64le</artifactId>
+                <version>${version.org.wildfly.openssl.wildfly-openssl-linux-ppc64le}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.wildfly.openssl</groupId>
+                <artifactId>wildfly-openssl-linux-rhel8-x86_64</artifactId>
+                <version>${version.org.wildfly.openssl.wildfly-openssl-linux-rhel8-x86_64}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.openssl</groupId>
+                <artifactId>wildfly-openssl-linux-rhel9-x86_64</artifactId>
+                <version>${version.org.wildfly.openssl.wildfly-openssl-linux-rhel9-x86_64}</version>
             </dependency>
             <dependency>
                 <groupId>org.wildfly.openssl</groupId>
