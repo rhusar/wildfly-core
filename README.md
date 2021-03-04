@@ -1,8 +1,8 @@
-WildFly Core
+WildFly Core EAP
 ============
-https://wildfly.org
+https://www.redhat.com/en/technologies/jboss-middleware/application-platform
 
-This project provides the core runtime that is used by the WildFly application server. This includes:
+This project provides the core runtime that is used by the JBoss EAP application server. This includes:
 
 * Modular class loading.
 * Unified management, including domain mode.
@@ -16,6 +16,32 @@ Prerequisites:
 
 * JDK 11 or newer - check `java -version`
 * Maven 3.6.0 or newer - check `mvn -v`
+* Be connected to the Red Hat VPN. Necessary to download the JBoss EAP maven artifacts from the internal maven repository.
+* Add the Red Hat root certificate as trusted certificate on your JDK keystore. Necessary to download the maven artifacts via HTTPS.
+
+### How to install the Red Hat root certificate on your JDK keystore
+
+Follow these instructions to install the Red Hat root certificate as trusted certificate on your JDK keystore:
+
+1. Download the Red Hat root certificate:
+
+```
+wget https://password.corp.redhat.com/RH-IT-Root-CA.crt
+```
+
+2. Install it on your JDK keystore:
+* For JDK 11:
+   ```
+   keytool -import -alias internal.redhat.com -keystore <JDK_11_Path>/lib/security/cacerts -file RH-IT-Root-CA.crt -storepass changeit
+  ```
+
+If you are using system provided JDK(rpm installed), like: java-11-openjdk-devel, using the following command also works:
+```
+curl https://password.corp.redhat.com/RH-IT-Root-CA.crt -o /etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt
+update-ca-trust
+```
+
+### Building
 
 To build with your own Maven installation:
 
@@ -31,7 +57,7 @@ On Windows
 > mvnw install
 
 
-Starting and Stopping WildFly
+Starting and Stopping WildFly Core EAP
 ------------------------------------------
 Change to the bin directory after a successful build:
 
@@ -50,9 +76,9 @@ To stop the server, press Ctrl + C, or use the admin console:
 > $ ./jboss-cli.sh --connect command=:shutdown
 
 Note that there is not very much that you can do with the core server, without first adding some extensions to it.
-If you are trying to deploy Java EE application then you likely want the full Wildfly distribution, which is located
+If you are trying to deploy Java EE application then you likely want the full JBoss EAP distribution, which is located
 at:
-https://github.com/wildfly/wildfly
+https://github.com/jbossas/jboss-eap8
 
 Contributing
 ------------------
