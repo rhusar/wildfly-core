@@ -140,7 +140,7 @@
          -->
         <version.ch.qos.cal10n>0.8.1.redhat-1</version.ch.qos.cal10n>
         <version.com.fasterxml.jackson.core.jackson-databind>2.11.3</version.com.fasterxml.jackson.core.jackson-databind>
-        <version.com.googlecode.javaewah>1.1.7</version.com.googlecode.javaewah>
+        <version.com.googlecode.javaewah>1.1.7.redhat-00001</version.com.googlecode.javaewah>
         <version.com.google.code.findbugs>3.0.2</version.com.google.code.findbugs>
         <version.com.google.guava>30.1-jre</version.com.google.guava>
         <version.com.google.guava.failureaccess>1.0.1</version.com.google.guava.failureaccess>
