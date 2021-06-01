@@ -290,11 +290,6 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.openssl</groupId>
-            <artifactId>wildfly-openssl-linux-rhel6-i386</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.openssl</groupId>
             <artifactId>wildfly-openssl-linux-rhel6-x86_64</artifactId>
             <scope>test</scope>
         </dependency>
@@ -311,11 +306,6 @@
         <dependency>
             <groupId>org.wildfly.openssl</groupId>
             <artifactId>wildfly-openssl-linux-s390x</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.openssl</groupId>
-            <artifactId>wildfly-openssl-windows-i386</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
