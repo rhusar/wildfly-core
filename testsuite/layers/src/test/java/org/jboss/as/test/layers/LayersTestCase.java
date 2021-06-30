@@ -46,7 +46,14 @@ public class LayersTestCase {
         "org.jboss.as.patching",
         "org.jboss.as.patching.cli",
         // Not currently used internally
-        "org.wildfly.event.logger"
+        "org.wildfly.event.logger",
+        // bootable jar runtime it not distributed with EAP 7.4.0.GA
+        "org.wildfly.bootable-jar",
+        // These are passive dependencies of the logging subsystem
+        // which are expected to be removed on EAP8
+        // They are not provisioned by Galleon Layers
+        "org.slf4j.ext",
+        "ch.qos.cal10n"
     };
     // Packages that are not referenced from the module graph but needed.
     // This is the expected set of un-referenced modules found when scanning
@@ -64,10 +71,6 @@ public class LayersTestCase {
         "org.jboss.logging.jul-to-slf4j-stub",
         // injected by logging
         "org.jboss.logmanager.log4j2",
-        // injected by logging
-        "org.slf4j.ext",
-        // injected by logging
-        "ch.qos.cal10n",
         // tooling
         "org.jboss.as.domain-add-user",
         // deployment-scanner not configured in default config
