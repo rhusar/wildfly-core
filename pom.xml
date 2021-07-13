@@ -146,7 +146,7 @@
         <version.com.google.guava.failureaccess>1.0.1</version.com.google.guava.failureaccess>
         <version.com.io7m.xom>1.2.10.redhat-1</version.com.io7m.xom>
         <version.com.jcraft.jsch>0.1.54</version.com.jcraft.jsch>
-        <version.commons-io>2.5.0.redhat-3</version.commons-io>
+        <version.commons-io>2.10.0.redhat-00001</version.commons-io>
         <version.commons-lang>2.6.0.redhat-7</version.commons-lang>
         <version.io.undertow>2.2.5.Final-redhat-00001</version.io.undertow>
         <version.jakarta.inject.jakarta.inject-api>1.0.3.redhat-00001</version.jakarta.inject.jakarta.inject-api>
