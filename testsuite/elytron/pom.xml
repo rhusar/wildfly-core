@@ -86,22 +86,32 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.openssl</groupId>
-            <artifactId>wildfly-openssl-linux-x86_64</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.openssl</groupId>
             <artifactId>wildfly-openssl-linux-s390x</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.wildfly.openssl</groupId>
-            <artifactId>wildfly-openssl-macosx-x86_64</artifactId>
+            <artifactId>wildfly-openssl-windows-x86_64</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.wildfly.openssl</groupId>
-            <artifactId>wildfly-openssl-windows-x86_64</artifactId>
+            <artifactId>wildfly-openssl-linux-ppc64le</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.openssl</groupId>
+            <artifactId>wildfly-openssl-linux-rhel6-x86_64</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.openssl</groupId>
+            <artifactId>wildfly-openssl-linux-rhel7-x86_64</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.openssl</groupId>
+            <artifactId>wildfly-openssl-linux-rhel8-x86_64</artifactId>
             <scope>test</scope>
         </dependency>
 
