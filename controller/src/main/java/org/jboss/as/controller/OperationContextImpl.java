@@ -200,6 +200,7 @@ final class OperationContextImpl extends AbstractOperationContext {
     private final BooleanHolder done = new BooleanHolder();
     private final boolean capabilitiesAlreadyBroken;
     private final boolean partialModel;
+    private final boolean forBoot;
 
     private volatile ExecutionStatus executionStatus = ExecutionStatus.EXECUTING;
 
@@ -211,7 +212,10 @@ final class OperationContextImpl extends AbstractOperationContext {
                          final OperationHeaders operationHeaders,
                          final OperationMessageHandler messageHandler, final OperationAttachments attachments,
                          final ModelControllerImpl.ManagementModelImpl managementModel, final ModelController.OperationTransactionControl transactionControl,
-                         final ControlledProcessState processState, final AuditLogger auditLogger, final boolean booting,
+                         final ControlledProcessState processState,
+                         final AuditLogger auditLogger,
+                         final boolean booting,
+                         final boolean forBoot,
                          final HostServerGroupTracker hostServerGroupTracker,
                          final AccessAuditContext accessAuditContext,
                          final NotificationSupport notificationSupport,
@@ -231,6 +235,7 @@ final class OperationContextImpl extends AbstractOperationContext {
         this.messageHandler = messageHandler;
         this.attachments = attachments;
         this.affectsModel = booting ? new ConcurrentHashMap<>(16 * 16) : new HashMap<>(1);
+        this.forBoot = forBoot;
         this.hostServerGroupTracker = hostServerGroupTracker;
         this.activeOperationResource = new ActiveOperationResource();
         this.accessAuditContext = accessAuditContext;
@@ -262,6 +267,11 @@ final class OperationContextImpl extends AbstractOperationContext {
 
     ModelControllerImpl.ManagementModelImpl getManagementModel() {
         return managementModel;
+    }
+
+    @Override
+    boolean isBootOperation() {
+        return forBoot;
     }
 
     private boolean validateCapabilities() {
