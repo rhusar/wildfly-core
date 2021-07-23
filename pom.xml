@@ -31,7 +31,7 @@
 
     <groupId>org.wildfly.core</groupId>
     <artifactId>wildfly-core-parent</artifactId>
-    <version>15.0.3.Final-redhat-SNAPSHOT</version>
+    <version>15.0.4.Final-redhat-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
