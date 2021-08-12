@@ -105,11 +105,7 @@ public class GitRepository implements Closeable {
                     }
                 } else {
                     if (!this.branch.equals(repository.getBranch())) {
-                        CheckoutCommand checkout = git.checkout().setName(branch);
-                        checkout.call();
-                        if (checkout.getResult().getStatus() == CheckoutResult.Status.ERROR) {
-                            throw ServerLogger.ROOT_LOGGER.failedToPullRepository(null, gitConfig.getRepository());
-                        }
+                        checkoutToSelectedBranch(git);
                     }
                 }
             } catch (GitAPIException ex) {
@@ -117,7 +113,7 @@ public class GitRepository implements Closeable {
             }
         } else {
             if (isLocalGitRepository(gitConfig.getRepository())) {
-                try (Git git = Git.init().setDirectory(baseDir).call()) {
+                try (Git git = Git.init().setDirectory(baseDir).setInitialBranch(branch).call()) {
                     StoredConfig config = git.getRepository().getConfig();
                     config.setBoolean(ConfigConstants.CONFIG_COMMIT_SECTION, null, ConfigConstants.CONFIG_KEY_GPGSIGN, gitConfig.isSign());
                     config.save();
@@ -138,7 +134,7 @@ public class GitRepository implements Closeable {
                 Path atticPath = basePath.getParent().resolve("attic");
                 Files.copy(basePath, atticPath, StandardCopyOption.REPLACE_EXISTING);
                 clearExistingFiles(basePath, gitConfig.getRepository());
-                try (Git git = Git.init().setDirectory(baseDir).call()) {
+                try (Git git = Git.init().setDirectory(baseDir).setInitialBranch(branch).call()) {
                     String remoteName = UUID.randomUUID().toString();
                     StoredConfig config = git.getRepository().getConfig();
                     config.setString("remote", remoteName, "url", gitConfig.getRepository());
@@ -147,7 +143,6 @@ public class GitRepository implements Closeable {
                     config.save();
                     git.clean().call();
                     git.pull().setRemote(remoteName).setRemoteBranchName(branch).setStrategy(MergeStrategy.RESOLVE).call();
-                    checkoutToSelectedBranch(git);
                     if (createGitIgnore(git, basePath)) {
                         git.commit().setMessage(ServerLogger.ROOT_LOGGER.addingIgnored()).call();
                     }
