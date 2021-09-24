@@ -179,7 +179,7 @@
         <version.org.glassfish.jakarta.json>1.1.6.redhat-00001</version.org.glassfish.jakarta.json>
         <version.org.jboss.byteman>4.0.14</version.org.jboss.byteman>
         <version.org.jboss.classfilewriter>1.2.4.Final-redhat-00001</version.org.jboss.classfilewriter>
-        <version.org.jboss.invocation>1.6.0.Final-redhat-00001</version.org.jboss.invocation>
+        <version.org.jboss.invocation>1.6.3.Final-redhat-00001</version.org.jboss.invocation>
         <version.org.jboss.jandex>2.2.3.Final-redhat-00001</version.org.jboss.jandex>
         <version.org.jboss.jboss-dmr>1.5.1.Final-redhat-00001</version.org.jboss.jboss-dmr>
         <version.org.jboss.jboss-vfs>3.2.15.Final-redhat-00001</version.org.jboss.jboss-vfs>
