@@ -22,7 +22,11 @@ if ($SECMGR) {
     $MODULE_OPTS +="-secmgr";
 }
 
-$JAVA_OPTS = Set-Java-Server-Option $JAVA_OPTS
+if (Is-Java-Server-Option $JAVA_OPTS) {
+	$JAVA_OPTS = ,"-server" + $JAVA_OPTS
+	$HOST_CONTROLLER_JAVA_OPTS = ,"-server" + $HOST_CONTROLLER_JAVA_OPTS
+	$PROCESS_CONTROLLER_JAVA_OPTS = ,"-server" + $PROCESS_CONTROLLER_JAVA_OPTS
+}
 
 Set-Global-Variables-Domain
 
@@ -55,14 +59,18 @@ $MODULAR_JDK = SetModularJDK
 $PROCESS_CONTROLLER_DEFAULT_MODULAR_JVM_OPTS = Get-Default-Modular-Jvm-Options -opts $PROCESS_CONTROLLER_JAVA_OPTS -modularJDK $MODULAR_JDK
 $HOST_CONTROLLER_DEFAULT_MODULAR_JVM_OPTS = Get-Default-Modular-Jvm-Options -opts $HOST_CONTROLLER_JAVA_OPTS -modularJDK $MODULAR_JDK
 
-Display-Environment
+if ($PROCESS_CONTROLLER_DEFAULT_MODULAR_JVM_OPTS -ne $null){
+	$PROCESS_CONTROLLER_JAVA_OPTS += $PROCESS_CONTROLLER_DEFAULT_MODULAR_JVM_OPTS
+}
+if ($HOST_CONTROLLER_DEFAULT_MODULAR_JVM_OPTS -ne $null){
+	$HOST_CONTROLLER_JAVA_OPTS += $HOST_CONTROLLER_DEFAULT_MODULAR_JVM_OPTS
+}
+
+Display-Environment $PROCESS_CONTROLLER_JAVA_OPTS
       
 $PROG_ARGS = @()
 $PROG_ARGS +='-DProcessController' 
 $PROG_ARGS += $PROCESS_CONTROLLER_JAVA_OPTS
-if ($PROCESS_CONTROLLER_DEFAULT_MODULAR_JVM_OPTS -ne $null){
-	$PROG_ARGS += $PROCESS_CONTROLLER_DEFAULT_MODULAR_JVM_OPTS
-}
 $PROG_ARGS += "-Dorg.jboss.boot.log.file=$JBOSS_LOG_DIR\process-controller.log"
 $PROG_ARGS += "-Dlogging.configuration=file:$JBOSS_CONFIG_DIR\logging.properties"
 $PROG_ARGS += "-Djboss.home.dir=$JBOSS_HOME"
@@ -85,9 +93,6 @@ $PROG_ARGS += "--"
 $PROG_ARGS += "-Dorg.jboss.boot.log.file=$JBOSS_LOG_DIR\host-controller.log"
 $PROG_ARGS += "-Dlogging.configuration=file:$JBOSS_CONFIG_DIR\logging.properties"
 $PROG_ARGS += $HOST_CONTROLLER_JAVA_OPTS
-if ($HOST_CONTROLLER_DEFAULT_MODULAR_JVM_OPTS -ne $null){
-	$PROG_ARGS += $HOST_CONTROLLER_DEFAULT_MODULAR_JVM_OPTS
-}
 $PROG_ARGS += "--"  
 $PROG_ARGS += "-default-jvm"
 $PROG_ARGS += $JAVA

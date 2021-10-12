@@ -1379,6 +1379,10 @@ public interface ServerLogger extends BasicLogger {
     @Message(id = 284, value = "Failed to restore the configuration after failing to initialize the repository %s")
     RuntimeException failedToRestoreConfiguration(@Cause Exception cause, String repository);
 
+
+    @Message(id = 286, value = "Failed to index static module %s for annotations")
+    DeploymentUnitProcessingException staticModuleIndexingFailed(String moduleId, @Cause Throwable cause);
+
     ////////////////////////////////////////////////
     //Messages without IDs
 
