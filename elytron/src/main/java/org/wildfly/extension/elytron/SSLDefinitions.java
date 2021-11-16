@@ -42,6 +42,8 @@ import static org.wildfly.extension.elytron._private.ElytronSubsystemMessages.RO
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.Socket;
 import java.net.URI;
 import java.security.GeneralSecurityException;
@@ -1541,6 +1543,26 @@ class SSLDefinitions {
     }
 
     private static BooleanSupplier getFipsSupplier() {
+        try {
+            final Class<?> providerClazz = SSLDefinitions.class.getClassLoader().loadClass("com.sun.net.ssl.internal.ssl.Provider");
+            final Method isFipsMethod = providerClazz.getMethod("isFIPS", new Class[0]);
+
+            Object isFips;
+            try {
+                isFips = isFipsMethod.invoke(null, new Object[0]);
+                if ((isFips instanceof Boolean)) {
+                    return () -> (boolean) isFips;
+                } else {
+                    return () -> false;
+                }
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                ROOT_LOGGER.trace("Unable to invoke com.sun.net.ssl.internal.ssl.Provider.isFIPS() method.", e);
+                return () -> false;
+            }
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException e) {
+            ROOT_LOGGER.trace("Unable to find com.sun.net.ssl.internal.ssl.Provider.isFIPS() method.", e);
+        }
+
         return () -> new SecureRandom().getProvider().getName().toLowerCase().contains("fips");
     }
 
