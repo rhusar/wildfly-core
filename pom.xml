@@ -177,7 +177,7 @@
         <version.org.eclipse.jgit>5.13.0.202109080827-r-redhat-00001</version.org.eclipse.jgit>
         <version.org.fusesource.jansi>1.18.0.redhat-00001</version.org.fusesource.jansi>
         <version.org.glassfish.jakarta.json>1.1.6.redhat-00001</version.org.glassfish.jakarta.json>
-        <version.org.jboss.byteman>4.0.14</version.org.jboss.byteman>
+        <version.org.jboss.byteman>4.0.16</version.org.jboss.byteman>
         <version.org.jboss.classfilewriter>1.2.4.Final-redhat-00001</version.org.jboss.classfilewriter>
         <version.org.jboss.invocation>1.6.3.Final-redhat-00001</version.org.jboss.invocation>
         <version.org.jboss.jandex>2.2.3.Final-redhat-00001</version.org.jboss.jandex>
