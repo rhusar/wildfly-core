@@ -53,7 +53,9 @@ public class LayersTestCase {
         // which are expected to be removed on EAP8
         // They are not provisioned by Galleon Layers
         "org.slf4j.ext",
-        "ch.qos.cal10n"
+        "ch.qos.cal10n",
+        // wildfly-elytron-http-stateful-basic
+        "org.wildfly.security.http.sfbasic",
         // wildfly-elytron-tool
         "org.apache.commons.cli",
         "org.apache.commons.lang3",
