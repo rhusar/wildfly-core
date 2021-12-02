@@ -54,6 +54,10 @@ public class LayersTestCase {
         // They are not provisioned by Galleon Layers
         "org.slf4j.ext",
         "ch.qos.cal10n"
+        // wildfly-elytron-tool
+        "org.apache.commons.cli",
+        "org.apache.commons.lang3",
+        "org.wildfly.security.elytron-tool"
     };
     // Packages that are not referenced from the module graph but needed.
     // This is the expected set of un-referenced modules found when scanning
