@@ -1,6 +1,6 @@
 ### -*- Power Shell file -*- ################################################
 #                                                                          ##
-#  WildFly bootstrap Script Configuration                                    ##
+#  JBoss EAP bootstrap Script Configuration                                ##
 #                                                                          ##
 #############################################################################
 
@@ -39,7 +39,7 @@ if (-Not $JAVA_OPTS) {
     $JAVA_OPTS = @()
 
     if (-Not(test-path env:JBOSS_JAVA_SIZING)) {
-        $env:JBOSS_JAVA_SIZING = "-Xms64M -Xmx512M"
+        $env:JBOSS_JAVA_SIZING = "-Xms1G -Xmx1G"
     }
     $JAVA_OPTS += String-To-Array($env:JBOSS_JAVA_SIZING)
 
@@ -91,12 +91,14 @@ if (-Not $JAVA_OPTS) {
 # Uncomment this to run with a security manager enabled
 # $SECMGR=$true
 
-# Uncomment this out to control garbage collection logging
-# $GC_LOG=$true
-
 # Uncomment to add a Java agent. If an agent is added to the module options, then jboss-modules.jar is added as an agent
 # on the JVM. This allows things like the log manager or security manager to be configured before the agent is invoked.
 # $MODULE_OPTS="-javaagent:agent.jar"
+
+# enable garbage collector log if not set in environment differently
+if (-Not(test-path env:GC_LOG )) {
+  $GC_LOG=$true
+}
 
 # Uncomment the following line to configure the grace period (in seconds) before applying a candidate server
 # $INST_MGR_SCRIPT_WINDOWS_COUNTDOWN=10

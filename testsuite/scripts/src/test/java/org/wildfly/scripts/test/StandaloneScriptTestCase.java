@@ -53,6 +53,7 @@ public class StandaloneScriptTestCase extends ScriptTestCase {
         return List.of(
                 Map.of(),
                 Map.of("GC_LOG", "true"),
+                Map.of("GC_LOG", "false"),
                 Map.of("MODULE_OPTS", "-javaagent:logging-agent-tests.jar=" + LoggingAgent.DEBUG_ARG),
                 Map.of("SECMGR", SECMGR_VALUE)
         );
@@ -87,7 +88,10 @@ public class StandaloneScriptTestCase extends ScriptTestCase {
         // however the workaround is to do something like file=`\`"C:\wildfly\standalong\logs\gc.log`\`". This does not
         // seem to work when a directory has a space. An error indicating the trailing quote cannot be found. Removing
         // the `\ parts and just keeping quotes ends in the error shown in JDK-8215398.
-        Assume.assumeFalse(TestSuiteEnvironment.isWindows() && env.containsKey("GC_LOG") && script.getScript().toString().contains(" "));
+        Assume.assumeFalse(TestSuiteEnvironment.isWindows()
+                && (script.toString().contains("powershell")
+                && (!env.containsKey("GC_LOG") || (env.containsKey("GC_LOG") && !env.get("GC_LOG").equals("false"))))
+                && script.getScript().toString().contains(" "));
         script.start(STANDALONE_CHECK, env, ServerHelper.DEFAULT_SERVER_JAVA_OPTS);
 
         Assert.assertNotNull("The process is null and may have failed to start.", script);

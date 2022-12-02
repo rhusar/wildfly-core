@@ -1,6 +1,6 @@
 rem ### -*- batch file -*- ######################################################
 rem #                                                                          ##
-rem #  JBoss Bootstrap Script Configuration                                    ##
+rem #  JBoss EAP Bootstrap Script Configuration                                ##
 rem #                                                                          ##
 rem #############################################################################
 
@@ -47,7 +47,7 @@ rem #
 
 if "x%JBOSS_JAVA_SIZING%" == "x" (
     rem # JVM memory allocation pool parameters - modify as appropriate.
-    set "JBOSS_JAVA_SIZING=-Xms64M -Xmx512M"
+    set "JBOSS_JAVA_SIZING=-Xms1G -Xmx1G"
 )
 set "JAVA_OPTS=%JBOSS_JAVA_SIZING%"
 
@@ -80,9 +80,6 @@ rem set "DEBUG_PORT=8787"
 rem # Uncomment this to run with a security manager enabled
 rem set "SECMGR=true"
 
-rem # Uncomment this out to control garbage collection logging
-rem set "GC_LOG=true"
-
 rem # Uncomment and edit to use a custom java.security file to override all the Java security properties
 rem set "JAVA_OPTS=%JAVA_OPTS% -Djava.security.properties==C:\path\to\custom\java.security"
 
@@ -99,6 +96,13 @@ rem set "DISABLE_JDK_SERIAL_FILTER=true"
 rem # Uncomment to add a Java agent. If an agent is added to the module options, then jboss-modules.jar is added as an agent
 rem # on the JVM. This allows things like the log manager or security manager to be configured before the agent is invoked.
 rem set "MODULE_OPTS=-javaagent:agent.jar"
+
+rem enable garbage collection logging if not set in environment differently
+if "x%GC_LOG%" == "x" (
+  set "GC_LOG=true"
+) else (
+  echo "GC_LOG set in environment to %GC_LOG%"
+)
 
 rem # Uncomment the following line to enable debug traces for the Management CLI script file
 rem set "INST_MGR_SCRIPT_DEBUG=true"
