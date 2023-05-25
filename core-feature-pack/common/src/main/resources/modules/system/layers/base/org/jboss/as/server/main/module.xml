@@ -71,5 +71,8 @@
         <module name="org.wildfly.installation-manager" services="import"/>
         <module name="org.wildfly.security.elytron-private" services="import"/>
         <module name="org.wildfly.service"/>
+
+        <!-- Preparing for insights support -->
+        <module name="com.redhat.insights" optional="true" services="import"/>
     </dependencies>
 </module>
