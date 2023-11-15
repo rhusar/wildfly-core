@@ -1,0 +1,1 @@
+-DignoreStreams=org.apache.maven:*,org.apache.maven.resolver:*,org.codehaus.plexus:*

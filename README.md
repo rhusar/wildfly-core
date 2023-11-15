@@ -41,6 +41,27 @@ curl https://password.corp.redhat.com/RH-IT-Root-CA.crt -o /etc/pki/ca-trust/sou
 update-ca-trust
 ```
 
+### Updating Dependency Versions (Optional)
+
+The release process of EAP 8 has changed in a way that dependency versions in the pom.xml files are not always kept
+up-to-date with the latest release. The dependency versions are instead resolved during an EAP instance provisioning 
+according to a Wildfly Channel Manifest. These manifests are distributed as Maven artifacts in the Red Hat Maven
+repository.
+
+To synchronize dependency versions according to latest available Manifest, run following command:
+
+    mvn org.wildfly:wildfly-channel-maven-plugin:upgrade -DmanifestGAV=org.jboss.eap.channels:eap-8.0
+
+or alternatively you can call the `align-dependencies.sh` helper script without parameters.
+
+To synchronize dependency versions according to a specific Manifest version, download the Manifest file locally and run:
+
+    mvn org.wildfly:wildfly-channel-maven-plugin:upgrade -DmanifestFile=path/to/manifest.yaml
+
+or alternatively you can call the helper script:
+
+    ./align-dependencies.sh path/to/manifest.yaml
+
 ### Building
 
 To build with your own Maven installation:
