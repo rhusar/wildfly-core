@@ -55,8 +55,8 @@ public class ProductConfig implements Serializable {
         String projectName = null;
         String productVersion = null;
         String consoleSlot = null;
-        Stability defaultStability = Stability.COMMUNITY;
-        Stability minStability = Stability.EXPERIMENTAL;
+        Stability defaultStability = Stability.DEFAULT;
+        Stability minStability = Stability.DEFAULT;
         Stability maxStability = Stability.DEFAULT;
 
         InputStream manifestStream = null;
