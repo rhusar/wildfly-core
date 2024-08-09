@@ -11,7 +11,8 @@
     </properties>
 
     <resources>
-        <artifact name="${org.wildfly.core:wildfly-domain-http-error-context}"/>
+        <resource-root path="dir"/>
+        <!-- Insert resources here -->
     </resources>
 
     <dependencies>
