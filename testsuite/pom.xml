@@ -53,7 +53,6 @@
         <module>elytron</module>
         <module>embedded</module>
         <module>scripts</module>
-        <module>unstable-api-annotation</module>
     </modules>
 
 
