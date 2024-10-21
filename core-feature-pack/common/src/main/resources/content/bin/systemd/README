@@ -1,81 +1,81 @@
-= How to configure WildFly as a systemd service
+= How to configure JBoss EAP as a systemd service
 
-The following steps describe the process to configure WildFly as a systemd service.
-You can use the provided wildfly-[standalone,domain].service file as a template for your own systemd unit file.
+The following steps describe the process to configure JBoss EAP as a systemd service.
+You can use the provided jboss-eap-[standalone,domain].service file as a template for your own systemd unit file.
 It can be adjusted to your needs, for example, you can manually change the user that runs the service,
-the location of the WildFly installation, logs, etc.
+the location of the JBoss EAP installation, logs, etc.
 Alternatively, you can use the generate_systemd_unit.sh script to automatically generate a new systemd unit file
-using this server installation as the WildFly home.
+using this server installation as the JBoss EAP home.
 
-If you want to install WildFly as a systemd service from scratch as a systemd service, follow the steps below.
+If you want to install JBoss EAP as a systemd service from scratch as a systemd service, follow the steps below.
 
-== Install WildFly and initialize the WILDFLY_HOME variable
+== Install JBoss EAP and initialize the JBOSS_EAP_HOME variable
 
-    # unzip -d /opt wildfly-34.0.0.Final.zip
-    # ln -s /opt/wildfly-34.0.0.Final /opt/wildfly
-    # WILDFLY_HOME=/opt/wildfly
+    # unzip -d /opt jboss-eap-8.0.0.zip
+    # ln -s /opt/jboss-eap-8.0 /opt/eap
+    # JBOSS_EAP_HOME=/opt/eap
 
 == Standalone or Domain mode ?
 
    # MODE=standalone
 
-== Create a wildfly user and group
+== Create a JBoss EAP user and group
 
-    # groupadd -r wildfly
-    # useradd -r -g wildfly -d "${WILDFLY_HOME}" -s /sbin/nologin wildfly
+    # groupadd -r jbosseap
+    # useradd -r -g jbosseap -d "${JBOSS_EAP_HOME}" -s /sbin/nologin jbosseap
 
 == Configure systemd
 
-    # cd "${WILDFLY_HOME}/bin/systemd"
-    # cp "wildfly-${MODE}.conf" /etc/sysconfig/
-    # cp "wildfly-${MODE}.service" $(pkg-config systemd --variable=systemdsystemunitdir)
-    # chown -R wildfly:wildfly "${WILDFLY_HOME}"/
-    # chmod +x "${WILDFLY_HOME}/bin/systemd/launch.sh"
+    # cd "${JBOSS_EAP_HOME}/bin/systemd"
+    # cp "jboss-eap-${MODE}.conf" /etc/sysconfig/
+    # cp "jboss-eap-${MODE}.service" $(pkg-config systemd --variable=systemdsystemunitdir)
+    # chown -R jbosseap:jbosseap "${JBOSS_EAP_HOME}"/
+    # chmod +x "${JBOSS_EAP_HOME}/bin/systemd/launch.sh"
     # systemctl daemon-reload
 
 === If SELinux is enabled, you need to set the appropriate context for the launch.sh script:
 
-    # sudo chcon -R -t bin_t "${WILDFLY_HOME}/"
-    # sudo semanage fcontext -a -t systemd_unit_file_t '${WILDFLY_HOME}(/.*)?'
+    # sudo chcon -R -t bin_t "${JBOSS_EAP_HOME}/"
+    # sudo semanage fcontext -a -t systemd_unit_file_t '${JBOSS_EAP_HOME}(/.*)?'
 
-== Start and enable WildFly
+== Start and enable JBoss EAP
 
-    # systemctl start "wildfly-${MODE}.service"
-    # systemctl enable "wildfly-${MODE}.service"
+    # systemctl start "jboss-eap-${MODE}.service"
+    # systemctl enable "jboss-eap-${MODE}.service"
 
-== Check the status of WildFly
+== Check the status of JBoss EAP
 
-    # systemctl status "wildfly-${MODE}.service"
+    # systemctl status "jboss-eap-${MODE}.service"
 
 
 
-= How to remove WildFly as a systemd service
+= How to remove JBoss EAP as a systemd service
 
 == Standalone or Domain mode ?
 
    # MODE=standalone
 
-== Stop and disable WildFly
+== Stop and disable JBoss EAP
 
-    # systemctl stop "wildfly-${MODE}.service"
-    # systemctl disable "wildfly-${MODE}.service"
+    # systemctl stop "jboss-eap-${MODE}.service"
+    # systemctl disable "jboss-eap-${MODE}.service"
 
 == If you are using SELinux, remove the custom context added
 
-    sudo semanage fcontext -d '${WILDFLY_HOME}(/.*)?'
+    sudo semanage fcontext -d '${JBOSS_EAP_HOME}(/.*)?'
 
-== Remove WildFly systemd service
+== Remove JBoss EAP systemd service
 
-    # rm -f "$(pkg-config systemd --variable=systemdsystemunitdir)/wildfly-${MODE}.service"
-    # rm -f "/etc/sysconfig/wildfly-${MODE}.conf"
+    # rm -f "$(pkg-config systemd --variable=systemdsystemunitdir)/jboss-eap-${MODE}.service"
+    # rm -f "/etc/sysconfig/jboss-eap-${MODE}.conf"
     # systemctl daemon-reload
 
-== Remove WildFly installation
+== Remove JBoss EAP installation
 
-    # rm -rf $(readlink "${WILDFLY_HOME}")
-    # rm -rf "${WILDFLY_HOME}"
+    # rm -rf $(readlink "${JBOSS_EAP_HOME}")
+    # rm -rf "${JBOSS_EAP_HOME}"
 
-== Remove WildFly user and group
+== Remove JBoss EAP user and group
 
-    # userdel wildfly
-    # groupdel wildfly
+    # userdel jbosseap
+    # groupdel jbosseap

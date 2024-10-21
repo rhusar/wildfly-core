@@ -1,5 +1,5 @@
 [Unit]
-Description=WildFly (standalone mode)
+Description=JBoss EAP (standalone mode)
 After=syslog.target network.target
 Before=httpd.service
 
@@ -7,11 +7,11 @@ Before=httpd.service
 Environment=LAUNCH_JBOSS_IN_BACKGROUND=1
 Environment="JAVA_HOME=/usr/lib/jvm/jre"
 
-Environment="WILDFLY_SH=@@@JBOSS_SYSTEMD_SERVER_HOME@@@/bin/standalone.sh"
-Environment="WILDFLY_SERVER_CONFIG=standalone.xml"
-Environment="WILDFLY_CONSOLE_LOG=@@@JBOSS_SYSTEMD_SERVER_HOME@@@/standalone/log/systemd-console.log"
-Environment="WILDFLY_BIND=0.0.0.0"
-EnvironmentFile=-/etc/sysconfig/wildfly-standalone.conf
+Environment="JBOSS_EAP_SH=@@@JBOSS_SYSTEMD_SERVER_HOME@@@/bin/standalone.sh"
+Environment="JBOSS_EAP_SERVER_CONFIG=standalone.xml"
+Environment="JBOSS_EAP_CONSOLE_LOG=@@@JBOSS_SYSTEMD_SERVER_HOME@@@/standalone/log/systemd-console.log"
+Environment="JBOSS_EAP_BIND=0.0.0.0"
+EnvironmentFile=-/etc/sysconfig/jboss-eap-standalone.conf
 
 User=@@@JBOSS_SYSTEMD_USER@@@
 Group=@@@JBOSS_SYSTEMD_GROUP@@@

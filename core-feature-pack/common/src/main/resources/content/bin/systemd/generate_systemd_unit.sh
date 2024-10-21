@@ -17,8 +17,8 @@ JBOSS_HOME=$(realpath "${SCRIPT_DIR}/../..")
 JBOSS_SYSTEMD_MODE="${1}"
 
 JBOSS_SYSTEMD_MODE=""
-JBOSS_SYSTEMD_USER="wildfly"
-JBOSS_SYSTEMD_GROUP="wildfly"
+JBOSS_SYSTEMD_USER="jbosseap"
+JBOSS_SYSTEMD_GROUP="jbosseap"
 JBOSS_CONFIRM="n"
 
 while [ "${#}" -gt 0 ]
@@ -68,7 +68,7 @@ if [ "${JBOSS_SYSTEMD_MODE}" != 'standalone' ] && [ "${JBOSS_SYSTEMD_MODE}" != '
   print_usage
 fi
 
-SYSTEMD_FILE="${SCRIPT_DIR}/wildfly-${JBOSS_SYSTEMD_MODE}.service"
+SYSTEMD_FILE="${SCRIPT_DIR}/jboss-eap-${JBOSS_SYSTEMD_MODE}.service"
 
 echo "INFO: systemd unit file to generate: ${SYSTEMD_FILE}"
 echo "INFO: Using JBOSS_HOME: ${JBOSS_HOME}"
@@ -96,11 +96,11 @@ systemd-analyze verify --recursive-errors=no "${SYSTEMD_FILE}"
 echo ""
 echo "INFO: systemd unit file generated."
 echo "INFO: The ${JBOSS_SYSTEMD_USER}:${JBOSS_SYSTEMD_GROUP} are the user:group configured to launch the server. You have to ensure this user and group exist and have the necessary permissions to read and launch the server."
-echo "INFO: Use ${JBOSS_HOME}/bin/systemd/wildfly-${JBOSS_SYSTEMD_MODE}.conf to configure the server environment."
+echo "INFO: Use ${JBOSS_HOME}/bin/systemd/jboss-eap-${JBOSS_SYSTEMD_MODE}.conf to configure the server environment."
 echo "INFO: After configuring your environment, to install the server as a systemd service do the following:"
 echo ""
 echo "sudo cp ${SYSTEMD_FILE} $(pkg-config systemd --variable=systemdsystemunitdir)"
-echo "sudo cp ${JBOSS_HOME}/bin/systemd/wildfly-${JBOSS_SYSTEMD_MODE}.conf /etc/sysconfig"
+echo "sudo cp ${JBOSS_HOME}/bin/systemd/jboss-eap-${JBOSS_SYSTEMD_MODE}.conf /etc/sysconfig"
 echo "sudo systemctl daemon-reload"
 echo "sudo systemctl start $(basename "${SYSTEMD_FILE}")"
 echo ""
