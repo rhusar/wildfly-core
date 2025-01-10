@@ -16,51 +16,6 @@ Prerequisites:
 
 * JDK 11 or newer - check `java -version`
 * Maven 3.6.0 or newer - check `mvn -v`
-* Be connected to the Red Hat VPN. Necessary to download the JBoss EAP maven artifacts from the internal maven repository.
-* Add the Red Hat root certificate as trusted certificate on your JDK keystore. Necessary to download the maven artifacts via HTTPS.
-
-### How to install the Red Hat root certificate on your JDK keystore
-
-Follow these instructions to install the Red Hat root certificate as trusted certificate on your JDK keystore:
-
-1. Download the Red Hat root certificate:
-
-```
-wget https://password.corp.redhat.com/RH-IT-Root-CA.crt
-```
-
-2. Install it on your JDK keystore:
-* For JDK 11:
-   ```
-   keytool -import -alias internal.redhat.com -keystore <JDK_11_Path>/lib/security/cacerts -file RH-IT-Root-CA.crt -storepass changeit
-  ```
-
-If you are using system provided JDK(rpm installed), like: java-11-openjdk-devel, using the following command also works:
-```
-curl https://password.corp.redhat.com/RH-IT-Root-CA.crt -o /etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt
-update-ca-trust
-```
-
-### Updating Dependency Versions (Optional)
-
-The release process of EAP 8 has changed in a way that dependency versions in the pom.xml files are not always kept
-up-to-date with the latest release. The dependency versions are instead resolved during an EAP instance provisioning 
-according to a Wildfly Channel Manifest. These manifests are distributed as Maven artifacts in the Red Hat Maven
-repository.
-
-To synchronize dependency versions according to latest available Manifest, run following command:
-
-    mvn org.wildfly:wildfly-channel-maven-plugin:upgrade -DmanifestGAV=org.jboss.eap.channels:eap-8.0
-
-or alternatively you can call the `align-dependencies.sh` helper script without parameters.
-
-To synchronize dependency versions according to a specific Manifest version, download the Manifest file locally and run:
-
-    mvn org.wildfly:wildfly-channel-maven-plugin:upgrade -DmanifestFile=path/to/manifest.yaml
-
-or alternatively you can call the helper script:
-
-    ./align-dependencies.sh path/to/manifest.yaml
 
 ### Building
 
