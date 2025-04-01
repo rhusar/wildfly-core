@@ -9,12 +9,6 @@
 
     <properties>
         <property name="jboss.require-java-version" value="11"/>
-	<!-- Support for direct deployment use of JBoss MSC may be
-             removed in a future release.
-             N.B. Furthermore, MSC itself includes a number of specific APIs
-             that are deprecated and are on track to be removed. These are
-             expected to be removed in a future EAP minor release. -->
-        <property name="jboss.api" value="deprecated"/>
     </properties>
 
     <main-class name="org.jboss.msc.Version"/>
