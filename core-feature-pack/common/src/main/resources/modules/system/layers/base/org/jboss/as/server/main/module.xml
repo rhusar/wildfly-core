@@ -51,6 +51,8 @@
         <module name="org.jboss.classfilewriter"/>
         <!--this needs to remain here until common-beans is fixed to use passed classloader -->
         <module name="org.jboss.common-beans" services="export" optional="true"/>
+        <!-- Allow EAP XP initialization, if present -->
+        <module name="org.jboss.eap.expansion.pack" optional="true" services="import"/>
         <module name="org.jboss.dmr"/>
         <module name="org.jboss.invocation"/>
         <module name="org.jboss.logging"/>
