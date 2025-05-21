@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MANIFEST_GAV="org.jboss.eap.channels:eap-8.0"
+MANIFEST_GAV="org.jboss.eap.channels:eap-8.1"
 
 usage() {
   echo "Usage: align-dependencies.sh [path/to/manifest.yaml]"
