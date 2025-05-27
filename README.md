@@ -17,6 +17,19 @@ Prerequisites:
 * JDK 11 or newer - check `java -version`
 * Maven 3.6.0 or newer - check `mvn -v`
 
+### Updating Dependency Versions (Optional)
+
+The release process of JBoss EAP 8 has changed in a way that dependency versions in the pom.xml files are not always kept
+up-to-date with the latest release. The dependency versions are instead resolved during an EAP instance provisioning
+according to a WildFly Channel manifest. These manifests are distributed as Maven artifacts in the Red Hat Maven
+repository.
+
+To synchronize dependency versions according to latest available Manifest, run the `align-dependencies.sh` script 
+without parameters. Alternatively, you can invoke the wildlfy-channel-maven-plugin directly:
+
+    mvn org.wildfly:wildfly-channel-maven-plugin:upgrade \
+      -DmanifestGAV=org.jboss.eap.channels:eap-8.1
+
 ### Building
 
 To build with your own Maven installation:
