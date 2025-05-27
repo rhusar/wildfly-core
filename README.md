@@ -25,7 +25,7 @@ according to a WildFly Channel manifest. These manifests are distributed as Mave
 repository.
 
 To synchronize dependency versions according to latest available Manifest, run the `align-dependencies.sh` script 
-without parameters. Alternatively, you can invoke the wildlfy-channel-maven-plugin directly:
+without parameters. Alternatively, you can invoke the wildfly-channel-maven-plugin directly:
 
     mvn org.wildfly:wildfly-channel-maven-plugin:upgrade \
       -DmanifestGAV=org.jboss.eap.channels:eap-8.1
