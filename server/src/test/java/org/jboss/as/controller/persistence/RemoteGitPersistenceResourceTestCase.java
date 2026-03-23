@@ -44,6 +44,7 @@ public class RemoteGitPersistenceResourceTestCase extends AbstractGitPersistence
                 StoredConfig config = git.getRepository().getConfig();
                 config.setBoolean(ConfigConstants.CONFIG_COMMIT_SECTION, null, ConfigConstants.CONFIG_KEY_GPGSIGN, false);
                 config.setBoolean(ConfigConstants.CONFIG_TAG_SECTION, null, ConfigConstants.CONFIG_KEY_GPGSIGN, false);
+                config.setString(ConfigConstants.CONFIG_GPG_SECTION, null, ConfigConstants.CONFIG_KEY_FORMAT, "openpgp");
                 config.save();
                 git.add().addFilepattern("standard.xml").call();
                 git.commit().setMessage("Repository initialized").call();
