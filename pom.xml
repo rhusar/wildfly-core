@@ -132,6 +132,7 @@
         <!-- plugins related to wildfly build and tooling -->
         <version.org.wildfly.component-matrix-plugin>1.0.3.Final</version.org.wildfly.component-matrix-plugin>
         <version.org.wildfly.licenses.plugin>2.4.2.Final</version.org.wildfly.licenses.plugin>
+        <version.verifier.plugin>1.1</version.verifier.plugin>
         <version.versions.plugin>2.5</version.versions.plugin>
         <version.xml.plugin>1.1.0</version.xml.plugin>
         <wildfly.build.output.dir>build/target/${server.output.dir.prefix}-${wildfly.core.release.version}</wildfly.build.output.dir>
@@ -243,10 +244,11 @@
         <version.org.wildfly.launcher>1.0.0.Final</version.org.wildfly.launcher>
         <version.org.wildfly.legacy.test>9.0.0.Final</version.org.wildfly.legacy.test>
         <version.org.wildfly.openssl>2.2.5.Final</version.org.wildfly.openssl>
-        <version.org.wildfly.openssl.natives>2.2.2.Final-redhat-00002</version.org.wildfly.openssl.natives>
+        <version.org.wildfly.openssl.natives>2.3.0.Final-redhat-00001</version.org.wildfly.openssl.natives>
         <version.org.wildfly.openssl.wildfly-openssl-linux-ppc64le>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-linux-ppc64le>
         <version.org.wildfly.openssl.wildfly-openssl-linux-rhel8-x86_64>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-linux-rhel8-x86_64>
         <version.org.wildfly.openssl.wildfly-openssl-linux-rhel9-x86_64>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-linux-rhel9-x86_64>
+        <version.org.wildfly.openssl.wildfly-openssl-linux-rhel10-x86_64>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-linux-rhel10-x86_64>
         <version.org.wildfly.openssl.wildfly-openssl-linux-s390x>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-linux-s390x>
         <version.org.wildfly.openssl.wildfly-openssl-windows-x86_64>${version.org.wildfly.openssl.natives}</version.org.wildfly.openssl.wildfly-openssl-windows-x86_64>
         <version.org.wildfly.security.elytron>2.6.8.Final</version.org.wildfly.security.elytron>
@@ -706,6 +708,23 @@
                     <groupId>org.jboss.eap.plugins</groupId>
                     <artifactId>eap-maven-plugin</artifactId>
                     <version>${version.eap.plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-verifier-plugin</artifactId>
+                    <version>${version.verifier.plugin}</version>
+                    <executions>
+                        <execution>
+                            <id>main</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <verificationFile>target/verifier/verifications.xml</verificationFile>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -1738,6 +1757,11 @@
                 <groupId>org.wildfly.openssl</groupId>
                 <artifactId>wildfly-openssl-linux-rhel9-x86_64</artifactId>
                 <version>${version.org.wildfly.openssl.wildfly-openssl-linux-rhel9-x86_64}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.openssl</groupId>
+                <artifactId>wildfly-openssl-linux-rhel10-x86_64</artifactId>
+                <version>${version.org.wildfly.openssl.wildfly-openssl-linux-rhel10-x86_64}</version>
             </dependency>
             <dependency>
                 <groupId>org.wildfly.openssl</groupId>

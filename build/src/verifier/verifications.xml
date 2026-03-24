@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright The WildFly Authors
+  ~ SPDX-License-Identifier: Apache-2.0
+  -->
+<verifications xmlns="http://maven.apache.org/verifications/1.0.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://maven.apache.org/verifications/1.0.0 http://maven.apache.org/xsd/verifications-1.0.0.xsd">
+<!--
+    OpenSSL native library verifications
+-->
+  <files>
+    <!-- linux-ppc64le -->
+    <file>
+      <location>target/${server.output.dir.prefix}-${wildfly.core.release.version}/modules/system/layers/base/org/wildfly/openssl/main/lib/linux-ppc64le/libwfssl.so</location>
+      <exists>true</exists>
+    </file>
+    <!-- linux-rhel8-x86_64 -->
+    <file>
+      <location>target/${server.output.dir.prefix}-${wildfly.core.release.version}/modules/system/layers/base/org/wildfly/openssl/main/lib/linux-rhel8-x86_64/libwfssl.so</location>
+      <exists>true</exists>
+    </file>
+    <!-- linux-rhel9-x86_64 -->
+    <file>
+      <location>target/${server.output.dir.prefix}-${wildfly.core.release.version}/modules/system/layers/base/org/wildfly/openssl/main/lib/linux-rhel9-x86_64/libwfssl.so</location>
+      <exists>true</exists>
+    </file>
+    <!-- linux-rhel10-x86_64 -->
+    <file>
+      <location>target/${server.output.dir.prefix}-${wildfly.core.release.version}/modules/system/layers/base/org/wildfly/openssl/main/lib/linux-rhel10-x86_64/libwfssl.so</location>
+      <exists>true</exists>
+    </file>
+    <!-- linux-s390x -->
+    <file>
+      <location>target/${server.output.dir.prefix}-${wildfly.core.release.version}/modules/system/layers/base/org/wildfly/openssl/main/lib/linux-s390x/libwfssl.so</location>
+      <exists>true</exists>
+    </file>
+    <!-- win-x86_64 -->
+    <file>
+      <location>target/${server.output.dir.prefix}-${wildfly.core.release.version}/modules/system/layers/base/org/wildfly/openssl/main/lib/win-x86_64/wfssl.dll</location>
+      <exists>true</exists>
+    </file>
+  </files>
+</verifications>
