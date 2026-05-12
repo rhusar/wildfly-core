@@ -356,6 +356,22 @@ public abstract class AbstractInstallationManagerTestCase extends AbstractCliTes
             Assert.assertTrue(output, output.contains("org.findupdates:findupdates.installed"));
             Assert.assertTrue(output, output.contains("org.findupdates:findupdates.removed"));
             Assert.assertTrue(output, output.contains("org.findupdates:findupdates.updated"));
+            Assert.assertFalse(output, output.contains("[*]"));
+            Assert.assertFalse(output, output.contains("lower version than the one currently installed"));
+        }
+    }
+
+    @Test
+    public void updateWithDryRunIncludingDowngrade() {
+        for (String host : getHosts()) {
+            cli.sendLine("installer update --dry-run --repositories=include-downgrade::http://localhost " + getHostSuffix(host));
+            String output = cli.readOutput();
+            Assert.assertTrue(output, output.contains("org.findupdates:findupdates.installed"));
+            Assert.assertTrue(output, output.contains("org.findupdates:findupdates.removed"));
+            Assert.assertTrue(output, output.contains("org.findupdates:findupdates.updated"));
+            Assert.assertTrue(output, output.contains("[*]"));
+            Assert.assertTrue(output, output.contains("org.findupdates:findupdates.downgraded"));
+            Assert.assertTrue(output, output.contains("lower version than the one currently installed"));
         }
     }
 
@@ -371,6 +387,8 @@ public abstract class AbstractInstallationManagerTestCase extends AbstractCliTes
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.installed"));
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.removed"));
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.updated"));
+        Assert.assertFalse(output, output.contains("[*]"));
+        Assert.assertFalse(output, output.contains("lower version than the one currently installed"));
 
         Assert.assertTrue(Files.exists(getPreparedServerDir(host)) && Files.isDirectory(getPreparedServerDir(host)));
         Assert.assertTrue(getPreparedServerDir(host) + " does not contain the expected file marker",
@@ -386,7 +404,8 @@ public abstract class AbstractInstallationManagerTestCase extends AbstractCliTes
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.installed"));
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.removed"));
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.updated"));
-
+        Assert.assertFalse(output, output.contains("[*]"));
+        Assert.assertFalse(output, output.contains("lower version than the one currently installed"));
         Assert.assertTrue(Files.exists(getPreparedServerDir(host)) && Files.isDirectory(getPreparedServerDir(host)));
         Assert.assertTrue(getPreparedServerDir(host) + " does not contain the expected file marker",
                 directoryOnlyContains(getPreparedServerDir(host), p -> getPreparedServerDir(host).relativize(p).toString().startsWith("server-prepare-marker-")));
@@ -401,6 +420,8 @@ public abstract class AbstractInstallationManagerTestCase extends AbstractCliTes
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.installed"));
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.removed"));
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.updated"));
+        Assert.assertFalse(output, output.contains("[*]"));
+        Assert.assertFalse(output, output.contains("lower version than the one currently installed"));
 
         Assert.assertTrue(Files.exists(getPreparedServerDir(host)) && Files.isDirectory(getPreparedServerDir(host)));
         Assert.assertTrue(getPreparedServerDir(host) + " does not contain the expected file marker",
@@ -477,6 +498,8 @@ public abstract class AbstractInstallationManagerTestCase extends AbstractCliTes
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.installed"));
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.removed"));
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.updated"));
+        Assert.assertFalse(output, output.contains("[*]"));
+        Assert.assertFalse(output, output.contains("lower version than the one currently installed"));
         Assert.assertFalse(output,
                 output.contains("The candidate server has been generated. To apply it, restart the server with 'shutdown --perform-installation' command."));
 
@@ -497,6 +520,8 @@ public abstract class AbstractInstallationManagerTestCase extends AbstractCliTes
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.installed"));
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.removed"));
         Assert.assertTrue(output, output.contains("org.findupdates:findupdates.updated"));
+        Assert.assertFalse(output, output.contains("[*]"));
+        Assert.assertFalse(output, output.contains("lower version than the one currently installed"));
         Assert.assertFalse(output,
                 output.contains("The candidate server has been generated. To apply it, restart the server with 'shutdown --perform-installation' command."));
 
