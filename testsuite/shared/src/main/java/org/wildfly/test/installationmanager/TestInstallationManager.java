@@ -57,6 +57,12 @@ public class TestInstallationManager implements InstallationManager {
     public static String APPLY_REVERT_BASE_GENERATED_COMMAND = "apply revert";
     public static String APPLY_UPDATE_BASE_GENERATED_COMMAND = "apply update";
 
+    // When this repository ID is included in the repositories list passed to
+    // findUpdates() a downgraded artifact is added to the results
+    public static final String INCLUDE_DOWNGRADE_REPO_ID = "include-downgrade";
+    private static final ArtifactChange DOWNGRADED_ARTIFACT = new ArtifactChange(
+            "2.0.0.Final", "1.0.0.Final", "org.findupdates:findupdates.downgraded", ArtifactChange.Status.UPDATED);
+
     public static List<ManifestVersion> nullDescriptionMV;
     public static List<ManifestVersion> descriptionMV;
 
@@ -215,6 +221,13 @@ public class TestInstallationManager implements InstallationManager {
             return new ArrayList<>();
         }
         findUpdatesRepositories = new ArrayList<>(repositories);
+        boolean includeDowngrade = repositories.stream()
+                .anyMatch(r -> INCLUDE_DOWNGRADE_REPO_ID.equals(r.getId()));
+        if (includeDowngrade) {
+            List<ArtifactChange> withDowngrade = new ArrayList<>(findUpdatesChanges);
+            withDowngrade.add(DOWNGRADED_ARTIFACT);
+            return withDowngrade;
+        }
         return findUpdatesChanges;
     }
 

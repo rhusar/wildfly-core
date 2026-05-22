@@ -530,6 +530,22 @@ public class InstMgrResourceTestCase extends AbstractControllerTestBase {
     }
 
     @Test
+    public void testListUpdatesWithDowngrade() throws Exception {
+        PathAddress pathElements = PathAddress.pathAddress(CORE_SERVICE, InstMgrConstants.TOOL_NAME);
+        ModelNode op = Util.createEmptyOperation(InstMgrListUpdatesHandler.OPERATION_NAME, pathElements);
+
+        ModelNode repositories = new ModelNode().addEmptyList();
+        ModelNode repository = new ModelNode();
+        repository.get(InstMgrConstants.REPOSITORY_ID).set(TestInstallationManager.INCLUDE_DOWNGRADE_REPO_ID);
+        repository.get(InstMgrConstants.REPOSITORY_URL).set("http://localhost");
+        repositories.add(repository);
+        op.get(InstMgrConstants.REPOSITORIES).set(repositories);
+
+        ModelNode response = executeForResult(op);
+        verifyListUpdatesResultWithDowngrade(response);
+    }
+
+    @Test
     public void testListMavenOptions() throws Exception {
         PathAddress pathElements = PathAddress.pathAddress(CORE_SERVICE, InstMgrConstants.TOOL_NAME);
         ModelNode op = Util.createEmptyOperation(InstMgrListUpdatesHandler.OPERATION_NAME, pathElements);
@@ -1593,6 +1609,39 @@ public class InstMgrResourceTestCase extends AbstractControllerTestBase {
         }
 
         Assert.assertEquals(hasWorkDir, response.hasDefined(InstMgrConstants.LIST_UPDATES_WORK_DIR));
+    }
+
+    private static void verifyListUpdatesResultWithDowngrade(ModelNode response) {
+        List<ModelNode> results = response.get(InstMgrConstants.LIST_UPDATES_RESULT).asList();
+        Assert.assertEquals(4, results.size());
+        for (ModelNode result : results) {
+            String status = result.get(InstMgrConstants.LIST_UPDATES_STATUS).asString();
+            String name = result.get(InstMgrConstants.LIST_UPDATES_ARTIFACT_NAME).asString();
+            String oldVersion = result.get(InstMgrConstants.LIST_UPDATES_OLD_VERSION).asStringOrNull();
+            String newVersion = result.get(InstMgrConstants.LIST_UPDATES_NEW_VERSION).asStringOrNull();
+
+            if (status.equals(ArtifactChange.Status.INSTALLED.name().toLowerCase())) {
+                Assert.assertEquals("org.findupdates:findupdates.installed", name);
+                Assert.assertNull(oldVersion);
+                Assert.assertEquals("5.0.0.Final", newVersion);
+            } else if (status.equals(ArtifactChange.Status.REMOVED.name().toLowerCase())) {
+                Assert.assertEquals("org.findupdates:findupdates.removed", name);
+                Assert.assertEquals("3.0.0.Final", oldVersion);
+                Assert.assertNull(newVersion);
+            } else if (status.equals(ArtifactChange.Status.UPDATED.name().toLowerCase())) {
+                if (name.equals("org.findupdates:findupdates.updated")) {
+                    Assert.assertEquals("1.0.0.Final", oldVersion);
+                    Assert.assertEquals("1.0.1.Final", newVersion);
+                } else if (name.equals("org.findupdates:findupdates.downgraded")) {
+                    Assert.assertEquals("2.0.0.Final", oldVersion);
+                    Assert.assertEquals("1.0.0.Final", newVersion);
+                } else {
+                    Assert.fail("Unexpected updated artifact: " + name);
+                }
+            } else {
+                Assert.fail("Unexpected status for an artifact change: " + status);
+            }
+        }
     }
 
     public void zipDir(Path sourcePath, Path target) {
