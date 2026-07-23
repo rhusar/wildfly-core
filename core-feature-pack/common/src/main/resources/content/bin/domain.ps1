@@ -7,14 +7,14 @@
 $scripts = (Get-ChildItem $MyInvocation.MyCommand.Path).Directory.FullName;
 . $scripts'\common.ps1'
 Set-Item -Path env:JBOSS_LAUNCH_SCRIPT -Value "powershell"
-$SERVER_OPTS = Process-Script-Parameters -Params $ARGS
-
-$JAVA_OPTS = Get-Java-Opts
 
 # Read an optional running configuration file
-$DOMAIN_CONF = $scripts +'\domain.conf.ps1'
+$DOMAIN_CONF = "$scripts\domain.conf.ps1"
 $DOMAIN_CONF = Get-Env RUN_CONF $DOMAIN_CONF
 . $DOMAIN_CONF
+
+$JAVA_OPTS = Get-Java-Opts
+$SERVER_OPTS = Process-Script-Parameters -Params $ARGS
 
 Write-Debug "sec mgr: $SECMGR"
 
@@ -22,11 +22,17 @@ if ($SECMGR) {
     $MODULE_OPTS +="-secmgr";
 }
 
-$DISABLE_JDK_SERIAL_FILTER = Get-Env-Boolean DISABLE_JDK_SERIAL_FILTER $DISABLE_JDK_SERIAL_FILTER
-$JDK_SERIAL_FILTER = Get-Env JDK_SERIAL_FILTER $JDK_SERIAL_FILTER
-if (-Not($JAVA_OPTS -like "*-Djdk.serialFilter*") -and (-Not($DISABLE_JDK_SERIAL_FILTER))) {
-    $HOST_CONTROLLER_JAVA_OPTS += "-Djdk.serialFilter=$JDK_SERIAL_FILTER"
-    $PROCESS_CONTROLLER_JAVA_OPTS += "-Djdk.serialFilter=$JDK_SERIAL_FILTER"
+if (-Not(Test-Path variable:DISABLE_JDK_SERIAL_FILTER)) {
+    $DISABLE_JDK_SERIAL_FILTER = Get-Env-Boolean DISABLE_JDK_SERIAL_FILTER $false
+}
+if (("$JAVA_OPTS $SERVER_OPTS $Env:JDK_JAVA_OPTIONS" -notlike "*-Djdk.serialFilter*") -and (!$DISABLE_JDK_SERIAL_FILTER)) {
+    if (-Not(Test-Path Env:JDK_SERIAL_FILTER)) {
+        $HOST_CONTROLLER_JAVA_OPTS += "`"@$scripts\jdk.serialFilter`""
+        $PROCESS_CONTROLLER_JAVA_OPTS += "`"@$scripts\jdk.serialFilter`""
+    } else {
+        $HOST_CONTROLLER_JAVA_OPTS += "-Djdk.serialFilter=""$Env:JDK_SERIAL_FILTER"""
+        $PROCESS_CONTROLLER_JAVA_OPTS += "-Djdk.serialFilter=""$Env:JDK_SERIAL_FILTER"""
+    }
 }
 
 Set-Global-Variables-Domain
