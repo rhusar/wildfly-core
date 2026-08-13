@@ -40,6 +40,21 @@ if "%~1" == "" (
    goto MAIN
 ) else if "%~1" == "-secmgr" (
    set SECMGR=true
+) else if "%~1" == "-v" (
+   set "PROCESS_CONTROLLER_JAVA_OPTS=-Xmx16m"
+   set SKIP_CONF=true
+) else if "%~1" == "-V" (
+   set "PROCESS_CONTROLLER_JAVA_OPTS=-Xmx16m"
+   set SKIP_CONF=true
+) else if "%~1" == "--version" (
+   set "PROCESS_CONTROLLER_JAVA_OPTS=-Xmx16m"
+   set SKIP_CONF=true
+) else if "%~1" == "-h" (
+   set "PROCESS_CONTROLLER_JAVA_OPTS=-Xmx16m"
+   set SKIP_CONF=true
+) else if "%~1" == "--help" (
+   set "PROCESS_CONTROLLER_JAVA_OPTS=-Xmx16m"
+   set SKIP_CONF=true
 )
 shift
 goto READ-ARGS
@@ -62,15 +77,17 @@ if /i "%RESOLVED_JBOSS_HOME%" NEQ "%SANITIZED_JBOSS_HOME%" (
    echo.
 )
 
-rem Read an optional configuration file.
-if "x%DOMAIN_CONF%" == "x" (
+rem Read an optional configuration file - skip for version/help commands
+if not "%SKIP_CONF%" == "true" if "x%DOMAIN_CONF%" == "x" (
    set "DOMAIN_CONF=%DIRNAME%domain.conf.bat"
 )
-if exist "%DOMAIN_CONF%" (
-   echo Calling "%DOMAIN_CONF%"
-   call "%DOMAIN_CONF%" %*
-) else (
-   echo Config file not found "%DOMAIN_CONF%"
+if not "%SKIP_CONF%" == "true" (
+   if exist "%DOMAIN_CONF%" (
+      echo Calling "%DOMAIN_CONF%"
+      call "%DOMAIN_CONF%" %*
+   ) else (
+      echo Config file not found "%DOMAIN_CONF%"
+   )
 )
 
 if "%OS%" == "Windows_NT" (
@@ -101,11 +118,15 @@ if "x%JAVA_HOME%" == "x" (
 )
 
 rem set default modular jvm parameters
+call "%DIRNAME%common.bat" :setDefaultModularJvmOptions "%PROCESS_CONTROLLER_JAVA_OPTS%"
 setlocal EnableDelayedExpansion
-call "!DIRNAME!common.bat" :setDefaultModularJvmOptions "!PROCESS_CONTROLLER_JAVA_OPTS!"
-set "PROCESS_CONTROLLER_JAVA_OPTS=!PROCESS_CONTROLLER_JAVA_OPTS! !DEFAULT_MODULAR_JVM_OPTIONS!"
-call "!DIRNAME!common.bat" :setDefaultModularJvmOptions "!HOST_CONTROLLER_JAVA_OPTS!"
-set "HOST_CONTROLLER_JAVA_OPTS=!HOST_CONTROLLER_JAVA_OPTS! !DEFAULT_MODULAR_JVM_OPTIONS!"
+set PROCESS_CONTROLLER_JAVA_OPTS=!PROCESS_CONTROLLER_JAVA_OPTS! !DEFAULT_MODULAR_JVM_OPTIONS!
+setlocal DisableDelayedExpansion
+
+call "%DIRNAME%common.bat" :setDefaultModularJvmOptions "%HOST_CONTROLLER_JAVA_OPTS%"
+setlocal EnableDelayedExpansion
+set HOST_CONTROLLER_JAVA_OPTS=!HOST_CONTROLLER_JAVA_OPTS! !DEFAULT_MODULAR_JVM_OPTIONS!
+setlocal DisableDelayedExpansion
 
 rem If the -Djava.security.manager is found, enable the -secmgr and include a bogus security manager for JBoss Modules to replace
 echo(!PROCESS_CONTROLLER_JAVA_OPTS! | findstr /r /c:"-Djava.security.manager" > nul && (
@@ -115,12 +136,12 @@ echo(!PROCESS_CONTROLLER_JAVA_OPTS! | findstr /r /c:"-Djava.security.manager" > 
 
 rem Set default Security Manager configuration value
 if "%SECMGR%" == "true" (
-    call "!DIRNAME!common.bat" :setSecurityManagerDefault
-    set "PROCESS_CONTROLLER_JAVA_OPTS=!PROCESS_CONTROLLER_JAVA_OPTS! !SECURITY_MANAGER_CONFIG_OPTION!"
-    set "HOST_CONTROLLER_JAVA_OPTS=!HOST_CONTROLLER_JAVA_OPTS! !SECURITY_MANAGER_CONFIG_OPTION!"
+    call "%DIRNAME%common.bat" :setSecurityManagerDefault
+    setlocal EnableDelayedExpansion
+    set PROCESS_CONTROLLER_JAVA_OPTS=!PROCESS_CONTROLLER_JAVA_OPTS! !SECURITY_MANAGER_CONFIG_OPTION!
+    set HOST_CONTROLLER_JAVA_OPTS=!HOST_CONTROLLER_JAVA_OPTS! !SECURITY_MANAGER_CONFIG_OPTION!
+    setlocal DisableDelayedExpansion
 )
-
-setlocal DisableDelayedExpansion
 
 rem Find run.jar, or we can't continue
 if exist "%JBOSS_HOME%\jboss-modules.jar" (

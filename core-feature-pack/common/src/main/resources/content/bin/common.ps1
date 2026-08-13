@@ -30,7 +30,7 @@ Function Get-Env-Boolean{
   return $args[1]
 }
 
-$COMMOM_CONF_FILE = $SCRIPTS_HOME + '\common.conf.ps1'
+$COMMOM_CONF_FILE = "$SCRIPTS_HOME\common.conf.ps1"
 $COMMOM_CONF_FILE = Get-Env COMMON_CONF $COMMOM_CONF_FILE
 if ([System.IO.File]::Exists($COMMOM_CONF_FILE)) {
     . $COMMOM_CONF_FILE
@@ -44,6 +44,7 @@ $global:SECMGR = Get-Env-Boolean SECMGR $false
 $global:DEBUG_MODE=Get-Env DEBUG $false
 $global:DEBUG_PORT=Get-Env DEBUG_PORT 8787
 $global:RUN_IN_BACKGROUND=$false
+$global:VERSION=$false
 $GC_LOG=Get-Env GC_LOG
 #module opts that are passed to jboss modules
 $global:MODULE_OPTS = @()
@@ -322,6 +323,9 @@ Param(
 			$global:SECMGR = $true
 		}elseif ($arg -eq '--background'){
 			$global:RUN_IN_BACKGROUND = $true
+		}elseif ($arg -eq '-v' -or $arg -eq '-V' -or $arg -eq '--version' -or $arg -eq '-h' -or $arg -eq '--help'){
+			$global:VERSION = $true
+			$res+=$arg
 		}else{
 			$res+=$arg
 		}

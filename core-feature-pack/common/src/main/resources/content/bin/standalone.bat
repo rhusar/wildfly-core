@@ -34,8 +34,10 @@ if "%OS%" == "Windows_NT" (
 ) else (
   set DIRNAME=.\
 )
+
+call "%DIRNAME%common.bat" :commonConf
+
 setlocal EnableDelayedExpansion
-call "!DIRNAME!common.bat" :commonConf
 rem check for the security manager system property
 echo(!SERVER_OPTS! | findstr /r /c:"-Djava.security.manager" > nul
 if not errorlevel == 1 (
@@ -55,6 +57,16 @@ if "%~1" == "" (
    goto READ-DEBUG-PORT
 ) else if "%~1" == "-secmgr" (
    set SECMGR=true
+) else if "%~1" == "-v" (
+   goto READ-VERSION
+) else if "%~1" == "-V" (
+   goto READ-VERSION
+) else if "%~1" == "--version" (
+   goto READ-VERSION
+) else if "%~1" == "-h" (
+   goto READ-VERSION
+) else if "%~1" == "--help" (
+   goto READ-VERSION
 )
 shift
 goto READ-ARGS
@@ -67,9 +79,16 @@ if not %DEBUG_ARG% == "" (
       shift
       set DEBUG_PORT_VAR=%DEBUG_ARG%
    )
-   shift
-   goto READ-ARGS
 )
+shift
+goto READ-ARGS
+
+:READ-VERSION
+set "JAVA_OPTS=-Xmx16m"
+set "PRESERVE_JAVA_OPTS=true"
+set SKIP_CONF=true
+shift
+goto READ-ARGS
 
 :MAIN
 rem $Id$
@@ -95,15 +114,17 @@ if /i "%RESOLVED_JBOSS_HOME%" NEQ "%SANITIZED_JBOSS_HOME%" (
    echo.
 )
 
-rem Read an optional configuration file.
-if "x%STANDALONE_CONF%" == "x" (
+rem Read an optional configuration file - skip for version/help commands
+if not "%SKIP_CONF%" == "true" if "x%STANDALONE_CONF%" == "x" (
    set "STANDALONE_CONF=%DIRNAME%standalone.conf.bat"
 )
-if exist "%STANDALONE_CONF%" (
-   echo Calling "%STANDALONE_CONF%"
-   call "%STANDALONE_CONF%" %*
-) else (
-   echo Config file not found "%STANDALONE_CONF%"
+if not "%SKIP_CONF%" == "true" (
+   if exist "%STANDALONE_CONF%" (
+      echo Calling "%STANDALONE_CONF%"
+      call "%STANDALONE_CONF%" %*
+   ) else (
+      echo Config file not found "%STANDALONE_CONF%"
+   )
 )
 
 rem Sanitize JAVA_OPTS
@@ -233,9 +254,9 @@ rem Set the standalone configuration dir
 if "x!JBOSS_CONFIG_DIR!" == "x" (
   set JBOSS_CONFIG_DIR=!JBOSS_BASE_DIR!\configuration
 )
-
-call "!DIRNAME!common.bat" :setModularJdk
 setlocal DisableDelayedExpansion
+
+call "%DIRNAME%common.bat" :setModularJdk
 
 if not "%PRESERVE_JAVA_OPT%" == "true" (
     if "%GC_LOG%" == "true" (
@@ -274,16 +295,19 @@ if not "%PRESERVE_JAVA_OPT%" == "true" (
     )
 
     rem set default modular jvm parameters
+    call "%DIRNAME%common.bat" :setDefaultModularJvmOptions "%JAVA_OPTS%"
+
     setlocal EnableDelayedExpansion
-    call "!DIRNAME!common.bat" :setDefaultModularJvmOptions !JAVA_OPTS!
     set JAVA_OPTS=!JAVA_OPTS! !DEFAULT_MODULAR_JVM_OPTIONS!
+    setlocal DisableDelayedExpansion
 
     rem Set default Security Manager configuration value
     if "%SECMGR%" == "true" (
-        call "!DIRNAME!common.bat" :setSecurityManagerDefault
+        call "%DIRNAME%common.bat" :setSecurityManagerDefault
+        setlocal EnableDelayedExpansion
         set JAVA_OPTS=!JAVA_OPTS! !SECURITY_MANAGER_CONFIG_OPTION!
+        setlocal DisableDelayedExpansion
     )
-    setlocal DisableDelayedExpansion
 )
 
 if not "%PRESERVE_JAVA_OPTS%" == "true" (
