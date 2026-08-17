@@ -5,6 +5,8 @@
 
 package org.wildfly.extension.io;
 
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.OP_ADDR;
+
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -27,7 +29,8 @@ public enum IOSubsystemSchema implements PersistentSubsystemSchema<IOSubsystemSc
     VERSION_3_0(3, 0), // WildFly 13 - 31
     VERSION_4_0(4, 0), // WildFly 32-present
     ;
-    static final IOSubsystemSchema CURRENT = VERSION_4_0;
+
+    public static final IOSubsystemSchema CURRENT = VERSION_4_0;
 
     private final VersionedNamespace<IntVersion, IOSubsystemSchema> namespace;
 
@@ -51,7 +54,16 @@ public enum IOSubsystemSchema implements PersistentSubsystemSchema<IOSubsystemSc
                 @Override
                 public void additionalOperations(PathAddress address, ModelNode addOperation, List<ModelNode> operations) {
                     // Apply "magic" default worker referenced by other subsystems
-                    addOperation.get(IOSubsystemRegistrar.DEFAULT_WORKER.getName()).set(IOSubsystemRegistrar.LEGACY_DEFAULT_WORKER);
+                    // but only if such a worker actually exists
+                    PathAddress defaultWorkerAddress = address.append(
+                            WorkerResourceDefinition.pathElement(IOSubsystemRegistrar.LEGACY_DEFAULT_WORKER.asString()));
+                    for (ModelNode op : operations) {
+                        if (PathAddress.pathAddress(op.get(OP_ADDR)).equals(defaultWorkerAddress)) {
+                            addOperation.get(IOSubsystemRegistrar.DEFAULT_WORKER.getName())
+                                    .set(IOSubsystemRegistrar.LEGACY_DEFAULT_WORKER);
+                            break;
+                        }
+                    }
                 }
             });
         }
